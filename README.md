@@ -9,7 +9,7 @@ Simple implementation of **CQRS** by using **MediatR** by using .Net 8.0 and C#.
 - .Net 8.0 SDK or higher
 
 
-## Deployment
+## Installation & Run The Application
 
 To run the application go to the source code folder and run these commands in order:
 
