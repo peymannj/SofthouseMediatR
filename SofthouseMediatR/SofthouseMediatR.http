@@ -1,0 +1,33 @@
+@SofthouseMediatR_HostAddress = https://localhost:7118
+
+### Create cars
+POST {{SofthouseMediatR_HostAddress}}/api/cars HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Nissan",
+  "color": "Green"
+}
+
+### Get all cars
+GET {{SofthouseMediatR_HostAddress}}/api/cars HTTP/1.1
+Accept: application/json
+
+### Get specific car
+GET {{SofthouseMediatR_HostAddress}}/api/cars/84b881dc-5a4d-46d6-84f9-55d79a1d6f98 HTTP/1.1
+Accept: application/json
+
+### Update specific car
+PUT {{SofthouseMediatR_HostAddress}}/api/cars/84b881dc-5a4d-46d6-84f9-55d79a1d6f98 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": "84b881dc-5a4d-46d6-84f9-55d79a1d6f98",
+  "name": "Mazda",
+  "color": "Brown"
+}
+
+### Delete specific car
+DELETE {{SofthouseMediatR_HostAddress}}/api/cars/84b881dc-5a4d-46d6-84f9-55d79a1d6f98 HTTP/1.1
+
