@@ -43,8 +43,7 @@ public class CarsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var query = new GetAllCarsQuery();
-        var response = await _mediator.Send(query);
+        var response = await _mediator.Send(new GetAllCarsQuery());
 
         return Ok(response);
     }
