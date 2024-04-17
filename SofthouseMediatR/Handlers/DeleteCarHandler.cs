@@ -15,9 +15,14 @@ public class DeleteCarHandler : IRequestHandler<DeleteCarCommand, Guid>
 
     public async Task<Guid> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
     {
-        if (request is null || request.Id == Guid.Empty)
+        if (request is null)
         {
-            throw new ArgumentNullException(nameof(request), "Request cannot be null or invalid");
+            throw new ArgumentNullException(nameof(request), "Request cannot be null");
+        }
+        
+        if (request.Id == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(request), "Correct car Id not provided");
         }
         
         return await _carService.DeleteCarAsync(request.Id);

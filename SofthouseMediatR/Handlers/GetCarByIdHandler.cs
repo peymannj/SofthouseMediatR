@@ -16,7 +16,7 @@ public class GetCarByIdHandler : IRequestHandler<GetCarQuery, GetCarResponse>
 
     public async Task<GetCarResponse> Handle(GetCarQuery request, CancellationToken cancellationToken)
     {
-        if (request is null || request.Id == Guid.Empty)
+        if (request is null)
         {
             throw new ArgumentNullException(nameof(request), "Request cannot be null");
         }
