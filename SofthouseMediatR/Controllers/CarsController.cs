@@ -63,8 +63,7 @@ public class CarsController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var command = new DeleteCarCommand(id);
-        var response = await _mediator.Send(command);
+        var response = await _mediator.Send(new DeleteCarCommand(id));
 
         if (response != Guid.Empty)
         {
