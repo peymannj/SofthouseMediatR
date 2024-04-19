@@ -93,6 +93,12 @@ And the next step is copying the **access token** content and click on authorize
 }
 ```
 
+**Note**
+The database migration for **Microsoft Identity** already created. The only thing that you need is running the following command:
+```bash
+ dotnet ef database update
+```
+
 **Note**: The only endpoint that you don't need access token for is **/api/Cars**. Please look at the controller and annotations. 
 
 **Note**: The **.Http file** updated respectfully. So you can use it to send the request instead of using **Swagger**.
