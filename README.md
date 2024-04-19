@@ -86,11 +86,11 @@ Steps:
 And the next step is copying the **access token** content and click on authorize button and paste the token into the field and finally press the authorize button. Then you are able be authorized and test the endpoints
 
 ```bash
-{
-  [Authorize]
-  and
-  [AllowAnonymous] or simple way [HttpGet, AllowAnonymous]
-}
+
+[Authorize]
+and
+[AllowAnonymous] or simple way [HttpGet, AllowAnonymous]
+
 ```
 
 **Note**
