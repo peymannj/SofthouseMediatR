@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SofthouseMediatR.Commands;
 using SofthouseMediatR.Dto;
@@ -7,6 +8,7 @@ using SofthouseMediatR.Queries;
 namespace SofthouseMediatR.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 [Produces("application/json")]
 public class CarsController : ControllerBase
@@ -40,7 +42,7 @@ public class CarsController : ControllerBase
         return NotFound();
     }
 
-    [HttpGet]
+    [HttpGet, AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
         var response = await _mediator.Send(new GetAllCarsQuery());

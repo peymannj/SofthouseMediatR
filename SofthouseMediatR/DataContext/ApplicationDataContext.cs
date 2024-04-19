@@ -1,9 +1,10 @@
-﻿using SofthouseMediatR.Models;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SofthouseMediatR.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace SofthouseMediatR.DataContext;
 
-public class ApplicationDataContext : DbContext
+public class ApplicationDataContext : IdentityDbContext
 {
     public ApplicationDataContext(DbContextOptions<ApplicationDataContext> options) : base(options)
     {

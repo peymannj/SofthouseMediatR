@@ -1,33 +1,55 @@
 @SofthouseMediatR_HostAddress = https://localhost:7118
+@AccessToken = CfDJ8Da69wvg96tFjvtQBbQjikzoAIKnP9BpJevmChFWJtllcLnyOr50l44X06AhTDfDS3WhNyGuDFq1_GJS5gqLp8XlSMTGT5GumeEShZz-ltLHOFCpHDfAxqAAS9FQDOp3cMmSC8wmLcxp2cCtad06-ibEvVc25ZpyhpP679bALEZGCiTyH7ta0Z0InDNNT95Oa_R6gxC6w_BIksBkJ3_bJnFG4J7vjxPDzySEyT9oojCwC5f-pF5GY_-u7U5O-jVubcMMTC-SRM12JVppbhGtISBZ_Hfh1DVorwx2tLVjNHMuRmvsN2qgZ3ObAfZ2LZ0sB9uJE9vqb4hYlDyYAWF4gCjEl0uogaQE2aTDCnOso4_NLTHj0g4AOwF-Ytkoe7ph9XEfMhYJZr5kXA89jGEt5Hpkz4j5B3eHahiYWWDCEs5Y3t42-BqKiteN5xZ48T0sSkPptITMGKX-GyXyQXxFkTKsplg8QrF_35_wO0rawJaP1Iuqcx4p734mzZRJPnfFQQ6ApeH4U4B31XwLWIICMhdTjpNtAsAVJT8tAeFlyFrhWjZt4g7apkXU-3-qpGANHib4mkKzgAK_JqWj-Y8QymN4iQpIOKZfCl1IQbtJjmQdlwBM2TnbnmIvTiZfg6hn6DfINmsfIUJVMOL5SzNLHfsHsQVpMfZaGdiEMMxZDBWaB6wh82WFow2XWyJrcVLfPw
+
+### Create user
+POST {{SofthouseMediatR_HostAddress}}/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@email.io",
+  "password": "String!1"
+}
+
+### Login user
+POST {{SofthouseMediatR_HostAddress}}/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@email.io",
+  "password": "String!1"
+}
 
 ### Create cars
 POST {{SofthouseMediatR_HostAddress}}/api/cars HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
 
 {
-  "name": "Nissan",
+  "name": "MMM",
   "color": "Green"
 }
 
 ### Get all cars
 GET {{SofthouseMediatR_HostAddress}}/api/cars HTTP/1.1
 Accept: application/json
+Authorization: Bearer {{AccessToken}}
 
 ### Get specific car
-GET {{SofthouseMediatR_HostAddress}}/api/cars/84b881dc-5a4d-46d6-84f9-55d79a1d6f98 HTTP/1.1
+GET {{SofthouseMediatR_HostAddress}}/api/cars/b49d7909-3d8b-4e74-aafc-873d6fede823 HTTP/1.1
 Accept: application/json
+Authorization: Bearer {{AccessToken}}
 
 ### Update specific car
-PUT {{SofthouseMediatR_HostAddress}}/api/cars/84b881dc-5a4d-46d6-84f9-55d79a1d6f98 HTTP/1.1
+PUT {{SofthouseMediatR_HostAddress}}/api/cars/b49d7909-3d8b-4e74-aafc-873d6fede823 HTTP/1.1
 Content-Type: application/json
 Accept: application/json
 
 {
-  "id": "84b881dc-5a4d-46d6-84f9-55d79a1d6f98",
-  "name": "Mazda",
-  "color": "Brown"
+  "id": "b49d7909-3d8b-4e74-aafc-873d6fede823",
+  "name": "XXX",
+  "color": "OOO"
 }
 
 ### Delete specific car
-DELETE {{SofthouseMediatR_HostAddress}}/api/cars/84b881dc-5a4d-46d6-84f9-55d79a1d6f98 HTTP/1.1
-
+DELETE {{SofthouseMediatR_HostAddress}}/api/cars/b49d7909-3d8b-4e74-aafc-873d6fede823 HTTP/1.1
+Authorization: Bearer {{AccessToken}}
