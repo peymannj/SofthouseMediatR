@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SofthouseWorker.Consumers;
 using SofthouseWorker.Data;
 using SofthouseWorker.Extensions;
 using SofthouseWorker.Services;

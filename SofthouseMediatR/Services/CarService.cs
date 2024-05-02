@@ -50,7 +50,6 @@ public class CarService : ICarService
         var carToCreate = _mapper.Map<Car>(carToCreateCarRequest);
         carToCreate.Id = Guid.NewGuid();
 
-        //await _mediator.Send(new PublishMessageCommand<Car>(carToCreate, RoutingKeys.CarCreated));
         var message = _mapper.Map<CarCreatedMessage>(carToCreate);
         await _messagingService.PublishAsync(message, MessageBrokerSettings.CarCreatedRout);
         

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using SofthouseCommon.MessageContracts;
