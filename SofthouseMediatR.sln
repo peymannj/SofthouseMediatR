@@ -2,6 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SofthouseMediatR", "SofthouseMediatR\SofthouseMediatR.csproj", "{04D0B85F-9B44-4CFA-9E11-9D4938D5AE3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SofthouseWorker", "SofthouseWorker\SofthouseWorker.csproj", "{ECEB4F68-76A2-456E-B305-DAE81FC740F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SofthouseCommon", "SofthouseCommon\SofthouseCommon.csproj", "{A38E4412-6D3C-4C09-9EA0-44445D5FCDEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{1903A63C-AA43-47C5-B413-48A39401EF8E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +23,13 @@ Global
 		{04D0B85F-9B44-4CFA-9E11-9D4938D5AE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04D0B85F-9B44-4CFA-9E11-9D4938D5AE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04D0B85F-9B44-4CFA-9E11-9D4938D5AE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECEB4F68-76A2-456E-B305-DAE81FC740F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECEB4F68-76A2-456E-B305-DAE81FC740F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECEB4F68-76A2-456E-B305-DAE81FC740F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECEB4F68-76A2-456E-B305-DAE81FC740F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A38E4412-6D3C-4C09-9EA0-44445D5FCDEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A38E4412-6D3C-4C09-9EA0-44445D5FCDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A38E4412-6D3C-4C09-9EA0-44445D5FCDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A38E4412-6D3C-4C09-9EA0-44445D5FCDEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

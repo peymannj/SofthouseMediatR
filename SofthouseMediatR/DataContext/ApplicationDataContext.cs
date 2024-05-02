@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SofthouseMediatR.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,13 @@ public class ApplicationDataContext : IdentityDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<Car>().HasKey(x => x.Id);
 
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
     }
 
     public DbSet<Car> Cars { get; set; }

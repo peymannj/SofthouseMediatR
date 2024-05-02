@@ -20,7 +20,9 @@ public class CreateCarHandler : IRequestHandler<CreateCarCommand, CreateCarRespo
         {
             throw new ArgumentNullException(nameof(request), "Request cannot be null");
         }
-        
-        return await _carService.CreateCarAsync(request.CreateCarRequest);
+
+        var createdCar = await _carService.CreateCarAsync(request.CreateCarRequest);
+
+        return createdCar;
     }
 }
