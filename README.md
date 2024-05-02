@@ -7,7 +7,7 @@ In this project I am using RabbitMQ messaging provider and to make it more relia
 
 <div style="text-align:center">
     <img alt="Workflow" src="https://github.com/peymannj/SofthouseMediatR/blob/main/Documents/Images/Diagram.png?raw=true" />
-</div>.
+</div>
 
 1- Create/update/delete a car.
 
