@@ -189,4 +189,5 @@ I didn't try it for **VS Code**. But the alternative is using **REST Client** ex
  - [.http file] https://www.youtube.com/watch?v=drwc2dF3u7I
  - [MassTransit] https://masstransit.io
  - [RabbitMQ] https://www.rabbitmq.com
+ - [MimeKit] https://github.com/jstedfast/MailKit
 
