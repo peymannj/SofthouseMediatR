@@ -1,7 +1,21 @@
 # SofthouseMediatR
 
-Simple implementation of **CQRS** by using **MediatR** based on .Net 8.0 framework and C# language.
-In this project I am using messaging and to make it more reliable, I used Outbox pattern.
+Simple CRUD implementation of **CQRS** by using **MediatR** patterns based on .Net 8.0 framework and C# language.
+In this project I am using RabbitMQ messaging provider and to make it more reliable, I used Outbox pattern.
+
+# Workflow
+
+<div style="text-align:center">
+    <img alt="Workflow" src="https://github.com/peymannj/SofthouseMediatR/blob/master/outbox-pattern/Documents/Images/Diagram.png?raw=true" />
+</div>.
+
+1- Create/update/delete a car.
+
+2- A message with a specific rout will be published.
+
+3- Message broker (RabbitMQ) receives the message and rout it to a corresponding consumer.
+
+4- The received message will be processed and an email will be created and send out.
 
 
 ## Requirement
