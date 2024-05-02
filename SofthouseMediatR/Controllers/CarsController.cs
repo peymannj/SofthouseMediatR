@@ -8,7 +8,7 @@ using SofthouseMediatR.Queries;
 namespace SofthouseMediatR.Controllers;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("api/[controller]")]
 [Produces("application/json")]
 public class CarsController : ControllerBase

@@ -1,14 +1,28 @@
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
+using SofthouseCommon.MessageContracts;
 using SofthouseMediatR.DataContext;
 using SofthouseMediatR.Mappings;
 using SofthouseMediatR.Repositories.Interfaces;
 using SofthouseMediatR.Services;
 using SofthouseMediatR.Services.Interfaces;
+using SofthouseMediatR.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Map settings
+var rabbitMqSettings = new RabbitMqSettings();
+builder.Configuration.GetSection(nameof(RabbitMqSettings)).Bind(rabbitMqSettings);
+
+// Dependency injections
+builder.Services.AddTransient<ICarService, CarService>();
+builder.Services.AddScoped<ICarRepository, CarRepository>();
+builder.Services.AddScoped<IMessagingService, MessagingService>();
+
+// Swagger settings
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -59,12 +73,42 @@ builder.Services
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// Dependency injections
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddTransient<ICarService, CarService>();
-
 // Add MediatR
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+// Add MassTransit service and configuration for RabbitMQ and EF outbox
+builder.Services.AddMassTransit(x =>
+{
+    x.AddEntityFrameworkOutbox<ApplicationDataContext>(configurator =>
+    {
+        configurator.QueryDelay = TimeSpan.FromSeconds(1);
+        configurator.UseSqlServer().UseBusOutbox();
+    });
+
+    x.UsingRabbitMq((_, configurator) =>
+    {
+        configurator.Host(rabbitMqSettings.HostName,"/",  hostConfigurator =>
+        {
+            hostConfigurator.Username(rabbitMqSettings.Username);
+            hostConfigurator.Password(rabbitMqSettings.Password);
+        });
+
+        configurator.Message<CarCreatedMessage>(topologyConfigurator  =>
+            topologyConfigurator.SetEntityName("softhouse"));
+        configurator.Publish<CarCreatedMessage>(topologyConfigurator =>
+            topologyConfigurator.ExchangeType = ExchangeType.Topic);
+
+        configurator.Message<CarUpdatedMessage>(topologyConfigurator  =>
+            topologyConfigurator.SetEntityName("softhouse"));
+        configurator.Publish<CarUpdatedMessage>(topologyConfigurator =>
+            topologyConfigurator.ExchangeType = ExchangeType.Topic);
+        
+        configurator.Message<CarDeletedMessage>(topologyConfigurator  =>
+            topologyConfigurator.SetEntityName("softhouse"));
+        configurator.Publish<CarDeletedMessage>(topologyConfigurator =>
+            topologyConfigurator.ExchangeType = ExchangeType.Topic);
+    });
+});
 
 // Add controller service
 builder.Services.AddControllers();

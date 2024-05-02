@@ -8,6 +8,9 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.1" />
+        <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.2.1" />
+
         <PackageReference Include="MediatR" Version="12.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
@@ -22,6 +25,11 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SofthouseCommon\SofthouseCommon.csproj" />
+      <ProjectReference Include="..\SofthouseWorker\SofthouseWorker.csproj" />
     </ItemGroup>
 
 </Project>

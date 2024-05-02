@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SofthouseCommon.Constants;
+using SofthouseCommon.MessageContracts;
 using SofthouseMediatR.Dto;
 using SofthouseMediatR.Models;
 using SofthouseMediatR.Repositories.Interfaces;
@@ -9,11 +11,13 @@ namespace SofthouseMediatR.Services;
 public class CarService : ICarService
 {
     private readonly ICarRepository _carRepository;
+    private readonly IMessagingService _messagingService;
     private readonly IMapper _mapper;
 
-    public CarService(ICarRepository carRepository, IMapper mapper)
+    public CarService(ICarRepository carRepository, IMessagingService messagingService, IMapper mapper)
     {
         _carRepository = carRepository;
+        _messagingService = messagingService;
         _mapper = mapper;
     }
 
@@ -46,6 +50,10 @@ public class CarService : ICarService
         var carToCreate = _mapper.Map<Car>(carToCreateCarRequest);
         carToCreate.Id = Guid.NewGuid();
 
+        //await _mediator.Send(new PublishMessageCommand<Car>(carToCreate, RoutingKeys.CarCreated));
+        var message = _mapper.Map<CarCreatedMessage>(carToCreate);
+        await _messagingService.PublishAsync(message, MessageBrokerSettings.CarCreatedRout);
+        
         await _carRepository.CreateCarAsync(carToCreate);
 
         return _mapper.Map<CreateCarResponse>(carToCreate);
@@ -74,6 +82,9 @@ public class CarService : ICarService
         carToUpdate.Name = updateCarRequest.Name;
         carToUpdate.Color = updateCarRequest.Color;
 
+        var message = _mapper.Map<CarUpdatedMessage>(carToUpdate);
+        await _messagingService.PublishAsync(message, MessageBrokerSettings.CarUpdatedRout);
+
         var updatedCar = await _carRepository.UpdateCarAsync(id, _mapper.Map<Car>(carToUpdate));
 
         return updatedCar is null ? null : _mapper.Map<UpdateCarResponse>(carToUpdate);
@@ -92,6 +103,9 @@ public class CarService : ICarService
         {
             return Guid.Empty;
         }
+
+        var message = _mapper.Map<CarDeletedMessage>(carToDelete);
+        await _messagingService.PublishAsync(message, MessageBrokerSettings.CarDeletedRout);
 
         return await _carRepository.DeleteCarAsync(id);
     }
