@@ -1,7 +1,7 @@
 # SofthouseMediatR
 
 Simple CRUD implementation of **CQRS** by using **MediatR** patterns based on .Net 8.0 framework and C# language.
-In this project I am using RabbitMQ messaging provider and to make it more reliable, I used Outbox pattern.
+In this project I am using **RabbitMQ** messaging provider and to make it more reliable, I used **Outbox** pattern.
 
 # Workflow
 
@@ -15,7 +15,7 @@ In this project I am using RabbitMQ messaging provider and to make it more relia
 
 2- A message with a specific rout will be published.
 
-3- Message broker (RabbitMQ) receives the message and rout it to a corresponding consumer.
+3- Message broker (RabbitMQ) receives the message and routs it to a corresponding consumer.
 
 4- The received message will be processed and an email will be created and send out.
 
@@ -27,14 +27,13 @@ In this project I am using RabbitMQ messaging provider and to make it more relia
 
 ## Preparation Of The DEV Environment
 - After installing Docker desktop, Go to the root of the project where you have the solution file. You can find the 
-docker-compose.yml file.
-- Open a terminal and execute the command below. By doing that 2 containers will be appeared, up and running. RabbitMQ 
-for messaging
-and the other one is PaperCut which is a fake mail server.
+**docker-compose.yml** file.
+- Open a terminal and execute the command below. By doing that 2 containers will be appeared, up and running. **RabbitMQ** 
+for messaging and the other one is PaperCut which is a fake mail server.
 
-1- RabbitMQ dashboard address: http://localhost:15672
+1- **RabbitMQ** dashboard address: http://localhost:15672
 
-2- PaperCut fake mailserver: http://localhost:37408/
+2- **PaperCut** fake mailserver: http://localhost:37408/
 
 ```bash
 docker-compose up .
@@ -164,19 +163,23 @@ By using the outbox pattern, applications can achieve the following benefits:
 - Scalability: The outbox pattern decouples message publication from the main application logic, allowing for better scalability
 - and performance.
 
-In this case I used MassTransit library. https://masstransit.io
+In this case I used [**MassTransit**]([subfolder/subsubfolder/relevantfolder/](https://masstransit.io)) library.
 MassTransit is a popular library the allow you to implement messaging solutions. MassTransit is an open-source distributed 
 application framework for .NET that provides a consistent abstraction on top of the supported message transports. 
 The interfaces provided by MassTransit reduce message-based application complexity and allow developers to focus their 
 effort on adding business value.
 
-MassTransit also provides Built-in patterns such as **Outbox** and **Saga**. And it is also integrated to Entity framework.
-In this case that I use Outbox pattern, It creates 3 tables to track the messages. Since it uses EF it also create migration
+**MassTransit** also provides Built-in patterns such as **Outbox** and **Saga**. And it is also integrated with Entity framework.
+In this case I use Outbox pattern, It creates 3 tables to track the messages states. Since it uses EF it also creates database migration
 files which were already added to the project. Otherwise you have to create a migration and then update the database.
 
 I used **RabbitMQ** which is a messaging provider by using Topic exchange. For example when you create a car, you publish 
 a message that a car with some specifications was created. The message will be received in Worker project. And then send 
 an email which you can receive it in **PaperCut**.
+
+Note that the direct exchange is faster than the topic exchange. And the main deferences are, in topic exchange you can use wildcard
+and easier to maintain the queues. But since the examples of **MassTranist** and **RabbitMQ** topic exhchange are rare, 
+I decided to implement it in this project.
 
 ## Note
 
