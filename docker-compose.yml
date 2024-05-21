@@ -1,19 +1,23 @@
-version: "3"
+version: "3.8"
 
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: softhouse.rabbitmq
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
     ports:
-        - 5672:5672
-        - 15672:15672
+        - '5672:5672'
+        - '15672:15672'
 
-  mailserver:
-    image: jijiechen/papercut:latest
-    container_name: softhouse.papercut
+  smtp4dev:
+    image: rnwood/smtp4dev:latest
+    container_name: softhouse.smtp4dev
+    restart: always
     ports:
-      - 37408:37408
-      - 25:25
+      - '5000:80'
+      - '2525:25'
+
+  

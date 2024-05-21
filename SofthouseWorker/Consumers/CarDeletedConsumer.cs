@@ -1,28 +1,21 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Logging;
+using MediatR;
 using SofthouseCommon.MessageContracts;
-using SofthouseWorker.Services.Interfaces;
+using SofthouseWorker.Notifications;
 
 namespace SofthouseWorker.Consumers;
 
 public class CarDeletedConsumer : IConsumer<CarDeletedMessage>
 {
-    private readonly IEMailService _mailService;
-    private readonly ILogger<CarDeletedConsumer> _logger;
+    private readonly IMediator _mediator;
 
-    public CarDeletedConsumer(IEMailService mailService, ILogger<CarDeletedConsumer> logger)
+    public CarDeletedConsumer(IMediator mediator)
     {
-        _logger = logger;
-        _mailService = mailService;
+        _mediator = mediator;
     }
 
     public async Task Consume(ConsumeContext<CarDeletedMessage> context)
     {
-        _logger.LogInformation("Car deleted : {Car}", context.Message);
-
-        var messageBody = $"Car '{context.Message.Name}' with color '{context.Message.Color}' deleted.";
-
-        await _mailService
-            .SendAsync("sender@email.io", "receiver@email.io", "Car Deleted", messageBody);
+        await _mediator.Publish(new CarDeletedNotification(context.Message));
     }
 }

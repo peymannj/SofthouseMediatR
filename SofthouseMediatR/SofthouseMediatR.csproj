@@ -4,12 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+<!--        <CodeAnalysisRuleSet>../../youniq.ruleset</CodeAnalysisRuleSet>-->
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.1" />
-        <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.2.1" />
+        <PackageReference Include="MailKit" Version="4.5.0" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
+        <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.2.2" />
 
         <PackageReference Include="MediatR" Version="12.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
@@ -25,11 +27,15 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
+<!--        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">-->
+<!--            <PrivateAssets>all</PrivateAssets>-->
+<!--            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
+<!--        </PackageReference>-->
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\SofthouseCommon\SofthouseCommon.csproj" />
-      <ProjectReference Include="..\SofthouseWorker\SofthouseWorker.csproj" />
     </ItemGroup>
 
 </Project>
