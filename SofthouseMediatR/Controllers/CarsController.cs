@@ -8,7 +8,6 @@ using SofthouseMediatR.Queries;
 namespace SofthouseMediatR.Controllers;
 
 [ApiController]
-[Authorize]
 [Route("api/[controller]")]
 [Produces("application/json")]
 public class CarsController : ControllerBase
@@ -21,6 +20,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles= "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateCarRequest request)
     {
         if (await _mediator.Send(new CreateCarCommand(request)) is { } response)
@@ -32,6 +32,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles= "Admin")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         if (await _mediator.Send(new GetCarQuery(id)) is { } response)
@@ -42,7 +43,8 @@ public class CarsController : ControllerBase
         return NotFound();
     }
 
-    [HttpGet, AllowAnonymous]
+    [HttpGet]
+    [Authorize(Roles = "Admin, User")]
     public async Task<IActionResult> GetAll()
     {
         var response = await _mediator.Send(new GetAllCarsQuery());
@@ -51,6 +53,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles= "Admin")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarRequest request)
     {
         if (await _mediator.Send(new UpdateCarCommand(id, request)) is { } response)
@@ -62,6 +65,7 @@ public class CarsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles= "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _mediator.Send(new DeleteCarCommand(id));

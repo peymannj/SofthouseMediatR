@@ -1,73 +1,45 @@
-using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using RabbitMQ.Client;
-using SofthouseCommon.MessageContracts;
 using SofthouseMediatR.DataContext;
+using SofthouseMediatR.Extensions;
 using SofthouseMediatR.Mappings;
 using SofthouseMediatR.Repositories.Interfaces;
 using SofthouseMediatR.Services;
 using SofthouseMediatR.Services.Interfaces;
 using SofthouseMediatR.Settings;
+using SofthouseWorker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Map settings
 var rabbitMqSettings = new RabbitMqSettings();
 builder.Configuration.GetSection(nameof(RabbitMqSettings)).Bind(rabbitMqSettings);
+builder.Services.AddOptions<SmtpSettings>().BindConfiguration(nameof(SmtpSettings));
 
 // Dependency injections
 builder.Services.AddTransient<ICarService, CarService>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IMessagingService, MessagingService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddSingleton<IEmailSender<IdentityUser>, IdentityEmailService>();
 
 // Swagger settings
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    // These settings add "Authorization" button in Swagger and defined how you want to authorize
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        Name = "Authorization",
-        Description = "Please enter a valid token",
-    });
+builder.Services.AddSwaggerWithConfiguration();
 
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+// Add and configure entity framework database context + retry policy 
+builder.Services.AddDbContext<ApplicationDataContext>(x =>
+{
+    x.UseSqlServer(builder.Configuration.GetConnectionString("Default"), options =>
     {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new List<string>()
-        }
+        options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
     });
 });
 
-// Add data context
-builder.Services.AddDbContext<ApplicationDataContext>(x =>
-    x.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-
-// Add Authentication
-builder.Services
-     .AddAuthentication()
-     .AddBearerToken();
-
-// Add Authorization
-builder.Services.AddAuthorization();
-
-// By using this service you can easily add some of the endpoints of Identity to Swagger automatically
+// By using this service you can easily configure role-based Identity
+// and add some of the endpoints of Identity to Swagger automatically
 builder.Services
     .AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDataContext>();
 
 // Add AutoMapper
@@ -77,38 +49,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 // Add MassTransit service and configuration for RabbitMQ and EF outbox
-builder.Services.AddMassTransit(x =>
-{
-    x.AddEntityFrameworkOutbox<ApplicationDataContext>(configurator =>
-    {
-        configurator.QueryDelay = TimeSpan.FromSeconds(1);
-        configurator.UseSqlServer().UseBusOutbox();
-    });
-
-    x.UsingRabbitMq((_, configurator) =>
-    {
-        configurator.Host(rabbitMqSettings.HostName,"/",  hostConfigurator =>
-        {
-            hostConfigurator.Username(rabbitMqSettings.Username);
-            hostConfigurator.Password(rabbitMqSettings.Password);
-        });
-
-        configurator.Message<CarCreatedMessage>(topologyConfigurator  =>
-            topologyConfigurator.SetEntityName("softhouse"));
-        configurator.Publish<CarCreatedMessage>(topologyConfigurator =>
-            topologyConfigurator.ExchangeType = ExchangeType.Topic);
-
-        configurator.Message<CarUpdatedMessage>(topologyConfigurator  =>
-            topologyConfigurator.SetEntityName("softhouse"));
-        configurator.Publish<CarUpdatedMessage>(topologyConfigurator =>
-            topologyConfigurator.ExchangeType = ExchangeType.Topic);
-        
-        configurator.Message<CarDeletedMessage>(topologyConfigurator  =>
-            topologyConfigurator.SetEntityName("softhouse"));
-        configurator.Publish<CarDeletedMessage>(topologyConfigurator =>
-            topologyConfigurator.ExchangeType = ExchangeType.Topic);
-    });
-});
+builder.Services.AddMassTransitWithConfiguration(rabbitMqSettings);
 
 // Add controller service
 builder.Services.AddControllers();
@@ -122,13 +63,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Add .Net Identity API endpoints
+//Add .Net Identity API endpoints
 app.MapGroup("api/auth")
     .MapIdentityApi<IdentityUser>()
     .WithOpenApi();
-
-// Add Authorization middleware
-app.UseAuthorization();
 
 app.UseHttpsRedirection();
 

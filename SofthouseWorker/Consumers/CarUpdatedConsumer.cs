@@ -1,28 +1,23 @@
 using MassTransit;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using SofthouseCommon.MessageContracts;
+using SofthouseWorker.Notifications;
 using SofthouseWorker.Services.Interfaces;
 
 namespace SofthouseWorker.Consumers;
 
 public class CarUpdatedConsumer : IConsumer<CarUpdatedMessage>
 {
-    private readonly IEMailService _mailService;
-    private readonly ILogger<CarCreatedConsumer> _logger;
+    private readonly IMediator _mediator;
 
-    public CarUpdatedConsumer(IEMailService mailService, ILogger<CarCreatedConsumer> logger)
+    public CarUpdatedConsumer(IMediator mediator)
     {
-        _mailService = mailService;
-        _logger = logger;
+        _mediator = mediator;
     }
 
     public async Task Consume(ConsumeContext<CarUpdatedMessage> context)
     {
-        _logger.LogInformation("Car updated : {Car}", context.Message);
-
-        var messageBody = $"Car '{context.Message.Name}' with color '{context.Message.Color}' updated.";
-
-        await _mailService
-            .SendAsync("sender@email.io", "receiver@email.io", "Car Updated", messageBody);
+        await _mediator.Publish(new CarUpdatedNotification(context.Message));
     }
 }

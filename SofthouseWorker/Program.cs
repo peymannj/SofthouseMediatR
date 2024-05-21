@@ -13,20 +13,23 @@ var builder = Host.CreateApplicationBuilder();
 // Map settings
 var rabbitMqSettings = new RabbitMqSettings();
 builder.Configuration.GetSection(nameof(RabbitMqSettings)).Bind(rabbitMqSettings);
-builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection(nameof(SmtpSettings)));
+builder.Services.AddOptions<SmtpSettings>().BindConfiguration(nameof(SmtpSettings));
 
 // Dependency injections
-builder.Services.AddScoped<IEMailService, EMailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
+
+// Add MediatR
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 // Add MassTransit service and configuration for RabbitMQ
 builder.Services.AddMassTransitWithConfiguration(rabbitMqSettings);
 
-// Configure entity framework
+// Add and configure entity framework database context + retry policy 
 builder.Services.AddDbContext<ApplicationDataContext>(x =>
 {
     x.UseSqlServer(builder.Configuration.GetConnectionString("Default"), options =>
     {
-        options.EnableRetryOnFailure(5);
+        options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
     });
 });
 

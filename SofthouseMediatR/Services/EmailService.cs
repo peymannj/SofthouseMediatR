@@ -2,10 +2,10 @@
 using MassTransit;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using SofthouseMediatR.Settings;
 using SofthouseWorker.Services.Interfaces;
-using SofthouseWorker.Settings;
 
-namespace SofthouseWorker.Services;
+namespace SofthouseMediatR.Services;
 
 public class EmailService : IEmailService
 {
@@ -13,7 +13,7 @@ public class EmailService : IEmailService
 
     public EmailService(IOptions<SmtpSettings> options)
     {
-        _options = options.Value ?? throw new ConfigurationException("Smtp configuration must be provided.");
+        _options = options.Value ?? throw new ConfigurationException("Smtp configuration must be provided");
     }
 
     public async Task SendAsync(string from, string to, string subject, string body)

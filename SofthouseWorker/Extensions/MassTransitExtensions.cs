@@ -31,6 +31,8 @@ public static class MassTransitExtensions
                 configurator.Host(rabbitMqSettings.HostName , "/", _ => {});
                 configurator.ConfigureEndpoints(context);
 
+                configurator.UseMessageRetry(retry => retry.Interval(5, TimeSpan.FromSeconds(5)));
+
                 configurator.ReceiveEndpoint(MessageBrokerSettings.QueueName, endpointConfigurator =>
                 {
                     // turns off default Fanout settings
