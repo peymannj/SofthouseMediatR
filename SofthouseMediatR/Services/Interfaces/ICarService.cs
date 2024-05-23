@@ -1,4 +1,4 @@
-﻿using SofthouseMediatR.Dto;
+﻿using SofthouseMediatR.Dto.Car;
 
 namespace SofthouseMediatR.Services.Interfaces;
 

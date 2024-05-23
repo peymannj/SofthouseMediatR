@@ -2,8 +2,8 @@
 using MassTransit;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using SofthouseMediatR.Services.Interfaces;
 using SofthouseMediatR.Settings;
-using SofthouseWorker.Services.Interfaces;
 
 namespace SofthouseMediatR.Services;
 

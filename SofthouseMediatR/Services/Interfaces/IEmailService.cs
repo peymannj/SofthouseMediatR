@@ -1,4 +1,4 @@
-﻿namespace SofthouseWorker.Services.Interfaces;
+﻿namespace SofthouseMediatR.Services.Interfaces;
 
 public interface IEmailService
 {

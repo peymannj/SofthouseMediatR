@@ -7,7 +7,6 @@ using SofthouseMediatR.Repositories.Interfaces;
 using SofthouseMediatR.Services;
 using SofthouseMediatR.Services.Interfaces;
 using SofthouseMediatR.Settings;
-using SofthouseWorker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +39,8 @@ builder.Services.AddDbContext<ApplicationDataContext>(x =>
 builder.Services
     .AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDataContext>();
+    .AddEntityFrameworkStores<ApplicationDataContext>()
+    .AddDefaultTokenProviders();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));

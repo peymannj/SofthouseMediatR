@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using SofthouseMediatR.Services.Interfaces;
 using SofthouseMediatR.Settings;
-using SofthouseWorker.Services.Interfaces;
 
 namespace SofthouseMediatR.Services;
 
