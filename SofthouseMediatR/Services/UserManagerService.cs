@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SofthouseMediatR.Dto.Identity.User;
 using SofthouseMediatR.Exceptions.UserException;
+using SofthouseMediatR.Extensions;
 using SofthouseMediatR.Services.Interfaces;
 
 namespace SofthouseMediatR.Services;
@@ -42,11 +43,13 @@ public class UserManagerService : IUserManagerService
 		}
 
 		var userToCreate = _mapper.Map<IdentityUser>(user);
+
+		userToCreate.UserName = user.Email;
 		var createdUser = await _userManager.CreateAsync(userToCreate, password);
 
 		return createdUser.Succeeded
 			? _mapper.Map<CreateUserResponse>(await _userManager.FindByEmailAsync(user.Email))
-			: throw new UserNotCreatedException(string.Join(". ", createdUser.Errors));
+			: throw new UserNotCreatedException(createdUser.GetFormatedErrors());
 	}
 
 	public async Task<UpdateUserResponse> UpdateUserAsync(string userId, UpdateUserRequest updatedUser)
@@ -67,7 +70,7 @@ public class UserManagerService : IUserManagerService
 			return _mapper.Map<UpdateUserResponse>(user);
 		}
 
-		throw new UserNotUpdatedException(string.Join(". ", result.Errors));
+		throw new UserNotUpdatedException(result.GetFormatedErrors());
 	}
 
 	public async Task DeleteUserAsync(string userId)
@@ -83,7 +86,7 @@ public class UserManagerService : IUserManagerService
 
 		if (!result.Succeeded)
 		{
-			throw new UserNotDeletedException(string.Join("; ", result.Errors));
+			throw new UserNotDeletedException(result.GetFormatedErrors());
 		}
 	}
 
@@ -100,7 +103,7 @@ public class UserManagerService : IUserManagerService
 
 		if (!result.Succeeded)
 		{
-			throw new AddToRoleException(string.Join("; ", result.Errors));
+			throw new AddToRoleException(result.GetFormatedErrors());
 		}
 	}
 
@@ -117,7 +120,7 @@ public class UserManagerService : IUserManagerService
 
 		if (!result.Succeeded)
 		{
-			throw new AddToRoleException(string.Join("; ", result.Errors));
+			throw new AddToRoleException(result.GetFormatedErrors());
 		}
 	}
 }

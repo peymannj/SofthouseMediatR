@@ -16,6 +16,6 @@ public class GetRoleByNameHandler : IRequestHandler<GetRoleByNameQuery, GetRoleR
 
 	public async Task<GetRoleResponse> Handle(GetRoleByNameQuery request, CancellationToken cancellationToken)
 	{
-		return await _roleManagerService.GetRoleByIdAsync(request.Name);
+		return await _roleManagerService.GetRoleByNameAsync(request.Name);
 	}
 }

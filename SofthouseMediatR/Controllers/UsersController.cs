@@ -20,8 +20,8 @@ public class UsersController : ControllerBase
 	    _mediator = mediator;
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUser(string id)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(string id)
     {
 	    var response = await _mediator.Send(new GetUserQuery(id));
 
@@ -29,7 +29,7 @@ public class UsersController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetUsers()
+    public async Task<IActionResult> GetAll()
     {
 	    var response = await _mediator.Send(new GetUsersQuery());
 
@@ -44,7 +44,7 @@ public class UsersController : ControllerBase
 	    return Created(nameof(Create), response);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateUserRequest request)
     {
 	    var response = await _mediator.Send(new UpdateUserCommand(id, request));
@@ -52,7 +52,7 @@ public class UsersController : ControllerBase
 	    return Ok(response);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(string id)
     {
 	    await _mediator.Send(new DeleteUserCommand(id));
@@ -60,18 +60,18 @@ public class UsersController : ControllerBase
 	    return NoContent() ;
     }
     
-    [HttpPost("")]
-    public async Task<IActionResult> AddUserToRole(string userId, string roleId)
+    [HttpPost("{id:guid}/role")]
+    public async Task<IActionResult> AddUserToRole([FromBody] AddToRoleRequest request)
     {
-	    await _mediator.Send(new AddUserToRoleCommand(userId, roleId));
+	    await _mediator.Send(new AddUserToRoleCommand(request.UserId, request.Role));
 
 	    return Ok();
     }
     
-    [HttpPost]
-    public async Task<IActionResult> RemoveUserFromRole(string userId, string roleId)
+    [HttpDelete("{id:guid}/role")]
+    public async Task<IActionResult> RemoveUserFromRole([FromBody] RemoveFromRoleRequest request)
     {
-	    await _mediator.Send(new RemoveUserFromRoleCommand(userId, roleId));
+	    await _mediator.Send(new RemoveUserFromRoleCommand(request.UserId, request.Role));
 
 	    return Ok();
     }

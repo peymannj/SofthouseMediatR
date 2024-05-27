@@ -15,6 +15,6 @@ public class AddUserToRoleHandler : IRequestHandler<AddUserToRoleCommand>
 
 	public async Task Handle(AddUserToRoleCommand request, CancellationToken cancellationToken)
 	{
-		await _userManagerService.AddToRoleAsync(request.UserId, request.RoleId);
+		await _userManagerService.AddToRoleAsync(request.UserId, request.Role);
 	}
 }

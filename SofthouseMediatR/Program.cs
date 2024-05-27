@@ -17,6 +17,8 @@ builder.Services.AddOptions<SmtpSettings>().BindConfiguration(nameof(SmtpSetting
 
 // Dependency injections
 builder.Services.AddTransient<ICarService, CarService>();
+builder.Services.AddScoped<IUserManagerService, UserManagerService>();
+builder.Services.AddScoped<IRoleManagerService, RoleManagerService>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IMessagingService, MessagingService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();

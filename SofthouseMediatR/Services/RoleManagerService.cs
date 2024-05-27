@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SofthouseMediatR.Dto.Identity.Role;
 using SofthouseMediatR.Exceptions.RoleExceptions;
+using SofthouseMediatR.Extensions;
 using SofthouseMediatR.Services.Interfaces;
 
 namespace SofthouseMediatR.Services;
@@ -52,7 +53,7 @@ public class RoleManagerService : IRoleManagerService
 
 		return createdRole.Succeeded
 			? _mapper.Map<CreateRoleResponse>(await _roleManager.FindByNameAsync(roleName))
-			: throw new RoleNotCreatedException(string.Join(". ", createdRole.Errors));
+			: throw new RoleNotCreatedException(createdRole.GetFormatedErrors());
 	}
 
 	public async Task<UpdateRoleResponse> UpdateRoleAsync(string id, string roleName)
@@ -72,7 +73,7 @@ public class RoleManagerService : IRoleManagerService
 			return _mapper.Map<UpdateRoleResponse>(role);
 		}
 
-		throw new RoleNotUpdatedException(string.Join(", ", result.Errors));
+		throw new RoleNotUpdatedException(result.GetFormatedErrors());
 	}
 
 	public async Task DeleteRoleAsync(string roleId)
@@ -88,7 +89,7 @@ public class RoleManagerService : IRoleManagerService
 
 		if (!result.Succeeded)
 		{
-			throw new RoleNotDeletedException(string.Join(". ", result.Errors));
+			throw new RoleNotDeletedException(result.GetFormatedErrors());
 		}
 	}
 }

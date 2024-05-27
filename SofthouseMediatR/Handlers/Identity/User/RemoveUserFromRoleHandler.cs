@@ -15,6 +15,6 @@ public class RemoveUserFromRoleHandler : IRequestHandler<RemoveUserFromRoleComma
 
 	public async Task Handle(RemoveUserFromRoleCommand request, CancellationToken cancellationToken)
 	{
-		await _userManagerService.RemoveFromRoleAsync(request.UserId, request.RoleId);
+		await _userManagerService.RemoveFromRoleAsync(request.UserId, request.Role);
 	}
 }
