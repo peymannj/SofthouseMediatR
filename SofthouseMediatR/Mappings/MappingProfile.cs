@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using SofthouseCommon.MessageContracts;
-using SofthouseMediatR.Dto;
+using SofthouseMediatR.Dto.Car;
+using SofthouseMediatR.Dto.Identity.Role;
+using SofthouseMediatR.Dto.Identity.User;
 using SofthouseMediatR.Models;
 
 namespace SofthouseMediatR.Mappings;
@@ -20,6 +23,15 @@ public class MappingProfile : Profile
         CreateMap<Car, CarUpdatedMessage>();
 
         CreateMap<Car, DeleteCarResponse>(MemberList.Destination);
-        CreateMap<Car, CarDeletedMessage>();
+
+        CreateMap<IdentityRole, GetRoleResponse>();
+        CreateMap<IdentityRole, CreateRoleResponse>();
+        CreateMap<IdentityRole, UpdateRoleResponse>();
+
+        CreateMap<IdentityUser, GetUserResponse>();
+        CreateMap<CreateUserRequest, IdentityUser>();
+        CreateMap<IdentityUser, CreateUserResponse>();
+        CreateMap<UpdateUserRequest, IdentityUser>();
+        CreateMap<IdentityUser, UpdateUserResponse>();
     }
 }

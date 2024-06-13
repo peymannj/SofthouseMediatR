@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SofthouseCommon.Constants;
 using SofthouseCommon.MessageContracts;
-using SofthouseMediatR.Dto;
+using SofthouseMediatR.Dto.Car;
 using SofthouseMediatR.Models;
 using SofthouseMediatR.Repositories.Interfaces;
 using SofthouseMediatR.Services.Interfaces;
@@ -37,7 +37,7 @@ public class CarService : ICarService
     {
         var cars = await _carRepository.GetAllAsync();
 
-        return !cars.Any() ? Enumerable.Empty<GetCarResponse>() : _mapper.Map<IEnumerable<GetCarResponse>>(cars);
+        return cars.Any() ? _mapper.Map<IEnumerable<GetCarResponse>>(cars) : Enumerable.Empty<GetCarResponse>();
     }
 
     public async Task<CreateCarResponse> CreateCarAsync(CreateCarRequest carToCreateCarRequest)

@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SofthouseMediatR.Commands;
-using SofthouseMediatR.Dto;
-using SofthouseMediatR.Queries;
+using SofthouseMediatR.Commands.Car;
+using SofthouseMediatR.Dto.Car;
+using SofthouseMediatR.Queries.Car;
 
 namespace SofthouseMediatR.Controllers;
 
@@ -31,9 +31,9 @@ public class CarsController : ControllerBase
         return BadRequest();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [Authorize(Roles= "Admin")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
         if (await _mediator.Send(new GetCarQuery(id)) is { } response)
         {

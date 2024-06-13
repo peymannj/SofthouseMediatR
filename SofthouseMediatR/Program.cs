@@ -7,7 +7,6 @@ using SofthouseMediatR.Repositories.Interfaces;
 using SofthouseMediatR.Services;
 using SofthouseMediatR.Services.Interfaces;
 using SofthouseMediatR.Settings;
-using SofthouseWorker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +17,8 @@ builder.Services.AddOptions<SmtpSettings>().BindConfiguration(nameof(SmtpSetting
 
 // Dependency injections
 builder.Services.AddTransient<ICarService, CarService>();
+builder.Services.AddScoped<IUserManagerService, UserManagerService>();
+builder.Services.AddScoped<IRoleManagerService, RoleManagerService>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IMessagingService, MessagingService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
@@ -40,7 +41,8 @@ builder.Services.AddDbContext<ApplicationDataContext>(x =>
 builder.Services
     .AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDataContext>();
+    .AddEntityFrameworkStores<ApplicationDataContext>()
+    .AddDefaultTokenProviders();
 
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));

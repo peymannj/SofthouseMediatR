@@ -1,9 +1,7 @@
 using MassTransit;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using SofthouseCommon.MessageContracts;
 using SofthouseWorker.Notifications;
-using SofthouseWorker.Services.Interfaces;
 
 namespace SofthouseWorker.Consumers;
 
