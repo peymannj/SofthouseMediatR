@@ -8,8 +8,8 @@ public class CreateCarResponse
     public Guid Id { get; init; }
 
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public string Name { get; init; } = string.Empty;
 
     [JsonPropertyName("color")]
-    public string Color { get; init; }
+    public string Color { get; init; } = string.Empty;
 }

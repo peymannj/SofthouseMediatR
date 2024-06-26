@@ -8,8 +8,8 @@ public class UpdateCarRequest
     public Guid Id { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("color")]
-    public string Color { get; set; }
+    public string Color { get; set; } = string.Empty;
 }

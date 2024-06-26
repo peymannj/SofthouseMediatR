@@ -5,11 +5,11 @@ namespace SofthouseMediatR.Dto.Identity.User;
 public class CreateUserResponse
 {
 	[JsonPropertyName("id")]
-	public Guid Id { get; set; }
+	public Guid Id { get; init; }
 	
 	[JsonPropertyName("userName")]
-	public string UserName { get; set; }
+	public string UserName { get; init; } = string.Empty;
 
 	[JsonPropertyName("email")]
-	public string Email { get; set; }
+	public string Email { get; init; } = string.Empty;
 }
