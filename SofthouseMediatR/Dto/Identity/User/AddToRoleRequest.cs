@@ -5,8 +5,8 @@ namespace SofthouseMediatR.Dto.Identity.User;
 public class AddToRoleRequest
 {
 	[JsonPropertyName("userId")]
-	public string UserId { get; set; }
+	public string UserId { get; set; } = string.Empty;
 	
 	[JsonPropertyName("role")]
-	public string Role { get; set; }
+	public string Role { get; set; } = string.Empty;
 }

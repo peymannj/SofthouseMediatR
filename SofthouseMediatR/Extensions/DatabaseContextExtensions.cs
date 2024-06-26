@@ -31,7 +31,7 @@ public static class DatabaseContextExtensions
 				Email = "admin@example.com",
 				NormalizedEmail = "ADMIN@EXAMPLE.COM",
 				EmailConfirmed = true,
-				PasswordHash = hasher.HashPassword(null, "Admin@123")
+				PasswordHash = hasher.HashPassword(null!, "Admin@123")
 			},
 			new IdentityUser
 			{
@@ -41,7 +41,7 @@ public static class DatabaseContextExtensions
 				Email = "user@example.com",
 				NormalizedEmail = "USER@EXAMPLE.COM",
 				EmailConfirmed = true,
-				PasswordHash = hasher.HashPassword(null, "User@123")
+				PasswordHash = hasher.HashPassword(null!, "User@123")
 			});
 
 		modelBuilder.Entity<IdentityUserRole<string>>().HasData(
