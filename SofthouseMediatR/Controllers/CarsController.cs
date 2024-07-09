@@ -21,9 +21,9 @@ public class CarsController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles= "Admin")]
-    public async Task<IActionResult> Create([FromBody] CreateCarRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCarRequest request, CancellationToken cancellationToken)
     {
-        if (await _mediator.Send(new CreateCarCommand(request)) is { } response)
+        if (await _mediator.Send(new CreateCarCommand(request), cancellationToken) is { } response)
         {
             return Created(nameof(Create), response);
         }
@@ -33,9 +33,9 @@ public class CarsController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [Authorize(Roles= "Admin")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
-        if (await _mediator.Send(new GetCarQuery(id)) is { } response)
+        if (await _mediator.Send(new GetCarQuery(id), cancellationToken) is { } response)
         {
             return Ok(response);
         }
@@ -45,18 +45,18 @@ public class CarsController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Admin, User")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetAllCarsQuery());
+        var response = await _mediator.Send(new GetAllCarsQuery(), cancellationToken);
 
         return Ok(response);
     }
 
     [HttpPut("{id:guid}")]
     [Authorize(Roles= "Admin")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarRequest request)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarRequest request, CancellationToken cancellationToken)
     {
-        if (await _mediator.Send(new UpdateCarCommand(id, request)) is { } response)
+        if (await _mediator.Send(new UpdateCarCommand(id, request), cancellationToken) is { } response)
         {
             return Ok(response);
         }
@@ -66,9 +66,9 @@ public class CarsController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles= "Admin")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new DeleteCarCommand(id));
+        var response = await _mediator.Send(new DeleteCarCommand(id), cancellationToken);
 
         if (response != Guid.Empty)
         {
