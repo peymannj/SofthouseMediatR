@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SofthouseMediatR.DataContext;
+using SofthouseMediatR.Exceptions.Handlers;
 using SofthouseMediatR.Extensions;
 using SofthouseMediatR.Mappings;
 using SofthouseMediatR.Repositories.Interfaces;
@@ -53,6 +54,10 @@ builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(Program).
 // Add MassTransit service and configuration for RabbitMQ and EF outbox
 builder.Services.AddMassTransitWithConfiguration(rabbitMqSettings);
 
+// Add global exception handler
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 // Add controller service
 builder.Services.AddControllers();
 
@@ -71,6 +76,7 @@ app.MapGroup("api/auth")
     .WithOpenApi();
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler();
 
 app.MapControllers();
 
