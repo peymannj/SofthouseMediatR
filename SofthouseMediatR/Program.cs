@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using SofthouseMediatR.DataContext;
 using SofthouseMediatR.Exceptions.Handlers;
 using SofthouseMediatR.Extensions;
@@ -10,6 +11,10 @@ using SofthouseMediatR.Services.Interfaces;
 using SofthouseMediatR.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Add support to logging with SERILOG
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 // Map settings
 var rabbitMqSettings = new RabbitMqSettings();
@@ -62,6 +67,9 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+//Add support to logging request with SERILOG
+app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
