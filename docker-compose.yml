@@ -20,4 +20,13 @@ services:
       - '5000:80'
       - '2525:25'
 
+  seq:
+    image: datalust/seq:latest
+    container_name: softhouse.seq
+    ports:
+      - "8081:80"
+      - "5341:5341"
+    environment:
+      ACCEPT_EULA: "Y"
+    restart: unless-stopped
   

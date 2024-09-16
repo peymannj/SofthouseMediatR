@@ -68,15 +68,15 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-//Add support to logging request with SERILOG
-app.UseSerilogRequestLogging();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Add support to logging request with SERILOG
+app.UseSerilogRequestLogging();
 
 //Add .Net Identity API endpoints
 app.MapGroup("api/auth")

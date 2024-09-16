@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using SofthouseWorker.Data;
 using SofthouseWorker.Extensions;
@@ -15,6 +16,9 @@ var builder = Host.CreateApplicationBuilder();
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
 
 // Map settings
 var rabbitMqSettings = new RabbitMqSettings();
