@@ -32,11 +32,13 @@ In this project I am using `RabbitMQ` messaging provider. To make it more reliab
 - After installing `Docker desktop`, Go to the root of the project where you have the solution file. You can find the 
 `docker-compose.yml` file.
 - Open a terminal and execute the command below. By doing that 2 containers will be appeared, up and running. `RabbitMQ`
-for messaging and the other one is `Smtp4dev` which is a fake mail server.
+for messaging and the other one is `Smtp4dev` which is a fake mail server. And finally `Seq` which is a log server. 
 
 1- `RabbitMQ` dashboard address: http://localhost:15672
 
 2- `Smtp4dev` fake mailserver: http://localhost:5000/
+
+3- `Seq` log server: http://localhost:8081/
 
 ```bash
 docker-compose up .
@@ -182,6 +184,13 @@ an email which you can receive it in `Smtp4dev` dashboard.
 and easier to maintain the queues. But since the examples of `MassTranist` and `RabbitMQ` based on topic exchange are rare, 
 I decided to implement it in this project.
 
+## Logging
+The project uses `Serilog` which is an open source library to log the activities in a structured way. And the logs are stored in `Seq` which is a self-hosted 
+search, analysis and alerting server built for structured logs and traces. We also log the activities in files and console as well. (Look into worker project).More info [**Here**](https://datalust.co/seq)
+<p align="center">
+    <img alt="Workflow" src="https://github.com/peymannj/SofthouseMediatR/blob/main/Documents/Images/Seq.png?raw=true" />
+</p>
+
 ## Note
 
 If you use `VisualStudio` or `Jetbrains Rider` you can use `SofthouseMediatR.http` in the root the source code 
@@ -197,4 +206,5 @@ I didn't try it for `VS Code`. But the alternative is using `REST Client` extens
  - [RabbitMQ] https://www.rabbitmq.com
  - [Smtp4dev] https://github.com/rnwood/smtp4dev
  - [MimeKit] https://github.com/jstedfast/MailKit
+ - [Seq] https://datalust.co/seq
 
