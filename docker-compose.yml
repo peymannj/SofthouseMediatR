@@ -28,5 +28,8 @@ services:
       - "5341:5341"
     environment:
       ACCEPT_EULA: "Y"
+      # Uncomment these 2 lines if you would like to set the initial Username & Password
+      #SEQ_FIRSTRUN_ADMINPASSWORD: "<YourPassword>"
+      #SEQ_FIRSTRUN_ADMINUSERNAME: "<YourUsername>"
     restart: unless-stopped
   
